@@ -18,26 +18,41 @@ function is_complementar2(tag1, tag2){
   return false;
 }
 
-function check_level(level, idx, html_tags){
-  let level_first_tag = html_tags[idx];  
-  if(idx + 1 < html_tags.length){
-    if(is_close_tag(html_tags[idx + 1])){
-      return -2; //open missing
+function check_level_recur(level, idx, html_tags){
+  let result = -1;
+  if(idx => html_tags.length)
+    return idx;
+  if(! is_close_tag(html_tags[idx])){
+    result = check_html_tag_sequence(level + 1, idx + 1, html_tags);
+    if(is_complementar2(html_tags[idx]), html_tags(result)){
+      return 
     }
-    if(is_complementar2(level_first_tag, html_tags[idx + 1])){
-      return -1; //ok
-    }
-    else{
-      let result = check_html_tag_sequence(level + 1, idx + 1, html_tags);
-      if(result === -1) 
-        return result;
-      else {
-        if(){
+  }
+  else { //closing tag
+    return idx;    
+  }
 
+  let level_first_tag = html_tags[idx];    
+  if(idx + 1 < html_tags.length){
+    for(let i = idx + 1; i < html_tags.length; i++){
+      if(is_close_tag(html_tags[idx + 1])){
+        return -2; //open missing
+      }
+      if(is_complementar2(level_first_tag, html_tags[idx + 1])){
+        return -1; //ok
+      }
+      else{
+        let result = check_html_tag_sequence(level + 1, idx + 1, html_tags);
+        if(result === -1) 
+          return result;
+        else {
+          if(){
+  
+          }
         }
       }
     }
-  }
+  }//length
   else {
     return level; //
   }
@@ -53,14 +68,20 @@ function check_html_tag_sequence(str){
   if(html_tags === null)
     return result;
   //html_tags.forEach((val) => console.log(val, "  - ", is_close_tag(val) ? " close" : " open"))
-  let nesting_level = 0;
+ 
+  const curr = [];
+  let level = 0;
   for(let i = 0; i < html_tags.length; i++){
-    if( is_close_tag( html_tags[i] ) )
-      nesting_level++;
-    else
-      nesting_level--;        
+    if(! is_close_tag(html_tags[i])){
+      curr.push(i);
+      level++;
+    }
+    else {
+
+    }
+    if()
+
   }
-  if(nesting_level)
 
   return result;
 }
