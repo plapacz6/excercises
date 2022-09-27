@@ -13,12 +13,12 @@ export function run_tests  (tests, tested_function) {
   let test_pass = 0;
   let test_fail = 0;
   for(let i = 0; i < tests.length; i++){
-    if(tested_function(tests[i][0]) === tests[i][1] ){
-      console.log("test pass");
+    if( tested_function(tests[i][0]) === tests[i][1] ){
+      console.log("test pass\n");
       test_pass++;
     }
     else{
-      console.log("test fail");
+      console.log("test fail\n");
       test_fail++;
     } 
   }

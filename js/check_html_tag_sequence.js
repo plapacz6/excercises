@@ -4,20 +4,21 @@ const tests = [
   ["<p></p><div><b></b></div>", "true"],
   ["<p></i><div><b></b></div>", "</i>"],
   ["<p></p><div><i></b></div>", "</b>"],
-  ["<p></p><div></b></div>", "</div>"],
+  ["<p></p><div></b></div>", "</b>"],
   ["<p></p><div><b></div>", "</div>"],
+  ["<p></p><div><b></b></div><div><div><b><i></b></b></div></div>", "</b>"],
 ]
 
 function is_close_tag(str){
   if( str[1]=='\/') return true;
   return false;
 }
+
 function is_complementar2(tag1, tag2){
   if(! is_close_tag(tag2)) return false;
-  if(tag2.slice(2,) === tag1) return true;
+  if(tag2.slice(2,) === tag1.slice(1,)) return true;
   return false;
 }
-
 
 
 function check_html_tag_sequence(str){
@@ -31,29 +32,29 @@ function check_html_tag_sequence(str){
     return result;
   //html_tags.forEach((val) => console.log(val, "  - ", is_close_tag(val) ? " close" : " open"))
  
-  let nesting_indicator = "----------->";
-
-  
-  let found_wrond_tag = false;
+  let found_wrong_tag = false;
   const curr = [];
   let level = -1;
-  for(let i = 0; i < html_tags.length && !found_wrond_tag ; i++){
+  for(let i = 0; i < html_tags.length && !found_wrong_tag ; i++){
     if(! is_close_tag(html_tags[i])){
       level++;
-      if(curr.length < level + 1) curr.push(i);      
-      console.log( nesting_indicator.slice(-level,));      
+      if(curr.length < level + 1) 
+        curr.push(i)   
+      else
+        curr[level] = i;      
     }
-    else {
+    else {      
       if( is_complementar2(html_tags[curr[level]], html_tags[i]) ){
         level--;        
       }
       else {
-        found_wrond_tag = true;
+        found_wrong_tag = true;
         wrong_tag = html_tags[i];
       } //!is_complementar2
     } //is_close_tag    
   } //for
   console.log({wrong_tag});
+  
   return wrong_tag;
 }
 
