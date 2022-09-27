@@ -18,48 +18,10 @@ function is_complementar2(tag1, tag2){
   return false;
 }
 
-function check_level_recur(level, idx, html_tags){
-  let result = -1;
-  if(idx => html_tags.length)
-    return idx;
-  if(! is_close_tag(html_tags[idx])){
-    result = check_html_tag_sequence(level + 1, idx + 1, html_tags);
-    if(is_complementar2(html_tags[idx]), html_tags(result)){
-      return 
-    }
-  }
-  else { //closing tag
-    return idx;    
-  }
 
-  let level_first_tag = html_tags[idx];    
-  if(idx + 1 < html_tags.length){
-    for(let i = idx + 1; i < html_tags.length; i++){
-      if(is_close_tag(html_tags[idx + 1])){
-        return -2; //open missing
-      }
-      if(is_complementar2(level_first_tag, html_tags[idx + 1])){
-        return -1; //ok
-      }
-      else{
-        let result = check_html_tag_sequence(level + 1, idx + 1, html_tags);
-        if(result === -1) 
-          return result;
-        else {
-          if(){
-  
-          }
-        }
-      }
-    }
-  }//length
-  else {
-    return level; //
-  }
-}
 
 function check_html_tag_sequence(str){
-  let result = "true";
+  let wrong_tag = "true";
 
   const re = /(\<[\/]?p\>)|(\<[\/]?b\>)|(\<[\/]?i\>)|(\<[\/]?div\>)/g
 
@@ -69,21 +31,30 @@ function check_html_tag_sequence(str){
     return result;
   //html_tags.forEach((val) => console.log(val, "  - ", is_close_tag(val) ? " close" : " open"))
  
+  let nesting_indicator = "----------->";
+
+  
+  let found_wrond_tag = false;
   const curr = [];
-  let level = 0;
-  for(let i = 0; i < html_tags.length; i++){
+  let level = -1;
+  for(let i = 0; i < html_tags.length && !found_wrond_tag ; i++){
     if(! is_close_tag(html_tags[i])){
-      curr.push(i);
       level++;
+      if(curr.length < level + 1) curr.push(i);      
+      console.log( nesting_indicator.slice(-level,));      
     }
     else {
-
-    }
-    if()
-
-  }
-
-  return result;
+      if( is_complementar2(html_tags[curr[level]], html_tags[i]) ){
+        level--;        
+      }
+      else {
+        found_wrond_tag = true;
+        wrong_tag = html_tags[i];
+      } //!is_complementar2
+    } //is_close_tag    
+  } //for
+  console.log({wrong_tag});
+  return wrong_tag;
 }
 
 
