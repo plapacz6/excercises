@@ -1,0 +1,43 @@
+<head>
+  
+</head>
+<body>
+  <p>display</p>
+  <input type="text" id="x" onchange="minute_diff()"></input>
+  <div id="display"></div>
+<script>
+document.getElementById("x").value = "12:33pm-11:02am";
+function minute_diff(){
+  const x = document.getElementById("x");
+  //x.value = "12:33pm-11:02am";  // to musi byc na poczatku skryptu, a nie w calbacku onchange
+  
+  const d = document.getElementById("display");
+  d.innerHTML = x.value;
+  
+  let str = x.value;
+  const minutes = []
+  re = /[01][0123456789]:[0123456][0123456789][pa]m/g;
+  const times = str.match(re);
+  console.log({times})
+  d.innerHTML = times[0] + "........" + times[1];
+  
+  for(let i = 0; i < 2; i++){
+    let time_tmp = 0;
+    time_tmp +=  ( 
+      parseInt( times[i].slice(0,2), 10 )  
+      + ( (times[i][5] === 'a') ? 0 : 12 )        //caly ternary musi byc w nawiasie, bo + ma wyzszy priorytek od ?
+    ) * 60;
+    console.log(time_tmp)
+    time_tmp += parseInt( times[i].slice(3,5), 10)
+    console.log(time_tmp)
+    minutes.push(time_tmp)
+    
+  }
+  d.innerHTML = minutes[0].toString() + " - " + minutes[1].toString() + " = " + (minutes[0]-minutes[1]).toString()
+}
+
+/*
+12:33pm-11:02am
+*/
+</script>
+</body>
