@@ -6,7 +6,7 @@
 
 using namespace std;
 
-char* change_word_order(char *strz){
+char* reverse_word_order_v1(char *strz){
   char *sp_ptr; 
   char tmp;
   char* tmp_dest;
@@ -37,6 +37,18 @@ char* change_word_order(char *strz){
   *(itL) = ' ';                                //space <-
   return strz;
 }
+
+
+//TODO:
+char* reverse_word_order_v2(char *strz){
+  return nullptr;
+}
+
+
+
+//*************  TESTS *******************
+
+
 
 
 namespace plapacz6_test_namespace {
@@ -103,7 +115,7 @@ using plapacz6_test_namespace::vtest_t;
       cout << "_";
     }
     cout << "v";
-    odp = change_word_order(pstrz);
+    odp = reverse_word_order_v1(pstrz);
     cout << "^";
     cout << "\t[" 
       << ((it->in!=nullptr)?it->in:"nullptr") 
