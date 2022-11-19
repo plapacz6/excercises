@@ -39,10 +39,24 @@ char* reverse_word_order_v1(char *strz){
 }
 
 
-//TODO:
-char* reverse_word_order_v2(char *strz){
-  return nullptr;
+//helping function
+void memswap1(char* s1, char* e1){
+  char tmp;
+  for(; s1 != e1; s1++, e1--){
+    tmp = *s1;
+    *(s1) = *(e1);
+    *(e1) = tmp;
+  }
 }
+
+char* reverse_word_order_v2(char *strz){
+  memswap1(strz, strz + strlen(strz));
+  memswap1(strz, strchr(strz,' ') - 1);
+  memswap1(strchr(strz,' ') + 1, strz + strlen(strz));
+  return strz;
+}
+
+//TODO: recurrent call of memswap1 in ver2
 
 
 
@@ -52,18 +66,68 @@ char* reverse_word_order_v2(char *strz){
 
 
 namespace plapacz6_test_namespace {
-struct test_t {
-  const char* in;
-  const char* out;
-  bool correct;
-  test_t(const char* in_, const char* out_, bool c_)
-    : in(in_), out(out_), correct(c_) {}    
-};
-typedef vector<test_t> vtest_t;
-void addt(vtest_t& vt, const char* in_, const char* out_, bool c_){
-  vt.emplace_back(test_t(in_,out_,c_));
-}
+  struct test_t {
+    const char* in;
+    const char* out;
+    bool correct;
+    test_t(const char* in_, const char* out_, bool c_)
+      : in(in_), out(out_), correct(c_) {}    
+  };
+
+  typedef vector<test_t> vtest_t;
+
+  void addt(vtest_t& vt, const char* in_, const char* out_, bool c_){
+    vt.emplace_back(test_t(in_,out_,c_));
+  }
+
+  void start_testing(vtest_t& vt, char* funcT(char*)){
+    int pass = 0;
+    int fail = 0;
+    char* odp;
+
+    #define pstrz_MAX_LENGTH (1000)
+    char bstrz[pstrz_MAX_LENGTH];
+    char *pstrz = bstrz;
+    for(vtest_t::iterator it = vt.begin(); it != vt.end(); it++){
+      memset(pstrz,0,pstrz_MAX_LENGTH);
+      cout << ".";
+      if( it->in != nullptr) {
+        strncpy(pstrz,it->in,pstrz_MAX_LENGTH - 1);
+        cout << "_";
+        pstrz[pstrz_MAX_LENGTH - 1] = '\0';
+      }
+      else {     
+        pstrz = nullptr;
+        cout << "_";
+      }
+      cout << "v";
+      odp = reverse_word_order_v1(pstrz);
+      cout << "^";
+      cout << "\t[" 
+        << ((it->in!=nullptr)?it->in:"nullptr") 
+        << "]" <<  " \t-> [" 
+        << ((odp!=nullptr)?odp:"nullptr") 
+        << "]\t";        
+      if((strcmp(
+        (odp!=nullptr)?odp:"nullptr"
+        , 
+        (it->out!=nullptr)?it->out:"nullptr"
+      ) == 0)  == it->correct){ 
+        cout << "(+)";
+        pass++;
+      }
+      else{
+        cout << "(-)";
+        fail++;
+      }
+      cout << endl;
+    }
+    cout << endl;    
+    cout << "pass: " << pass << " fail: " << fail << endl;
+  }
+
 }//namespace
+
 
 
 int main(int argc, char** argv){
@@ -71,6 +135,7 @@ int main(int argc, char** argv){
 using plapacz6_test_namespace::test_t;
 using plapacz6_test_namespace::addt;
 using plapacz6_test_namespace::vtest_t;
+using plapacz6_test_namespace::start_testing;
 
   cout << "preparing tests" << endl;
   vtest_t vt;
@@ -85,10 +150,6 @@ using plapacz6_test_namespace::vtest_t;
   addt(vt,"",nullptr,1);
   addt(vt,nullptr,nullptr,1);
 
-  int pass = 0;
-  int fail = 0;
-  char* odp;
-
 /*
   char *ptr0= nullptr;
   const char *ptr1 = const_cast<const char*>(ptr0);
@@ -98,47 +159,13 @@ using plapacz6_test_namespace::vtest_t;
   strlen(ptr0);
   //string str0 = string(ptr0,strlen(ptr0));  //<<naruszenie ochr.pam
 */
-  cout << "start testing" << endl;
-  #define pstrz_MAX_LENGTH (1000)
-  char bstrz[pstrz_MAX_LENGTH];
-  char *pstrz = bstrz;
-  for(vtest_t::iterator it = vt.begin(); it != vt.end(); it++){
-    memset(pstrz,0,pstrz_MAX_LENGTH);
-    cout << ".";
-    if( it->in != nullptr) {
-      strncpy(pstrz,it->in,pstrz_MAX_LENGTH - 1);
-      cout << "_";
-      pstrz[pstrz_MAX_LENGTH - 1] = '\0';
-    }
-    else {     
-      pstrz = nullptr;
-      cout << "_";
-    }
-    cout << "v";
-    odp = reverse_word_order_v1(pstrz);
-    cout << "^";
-    cout << "\t[" 
-      << ((it->in!=nullptr)?it->in:"nullptr") 
-      << "]" <<  " \t-> [" 
-      << ((odp!=nullptr)?odp:"nullptr") 
-      << "]\t";        
-    if((strcmp(
-      (odp!=nullptr)?odp:"nullptr"
-      , 
-      (it->out!=nullptr)?it->out:"nullptr"
-    ) == 0)  == it->correct){ 
-      cout << "(+)";
-      pass++;
-    }
-    else{
-      cout << "(-)";
-      fail++;
-    }
-    cout << endl;
-  }
-  cout << endl;
-  cout << "stop testing" << endl;
-  cout << "pass: " << pass << " fail: " << fail << endl;
+  cout << "start testing v1" << endl;
+  start_testing(vt,reverse_word_order_v1);
+  cout << "stop testing v1" << endl;
+
+  cout << "start testing v2" << endl;
+  start_testing(vt,reverse_word_order_v2);
+  cout << "stop testing v2" << endl;
 
   return EXIT_SUCCESS;
 }
