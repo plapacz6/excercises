@@ -3,6 +3,7 @@
 #include <string.h>
 #include <malloc.h>
 
+#define NOT_EXIST ((size_t)(-1))
 #define TREE_SIZE (100)
 typedef struct tree {
     size_t node[TREE_SIZE];
@@ -18,9 +19,9 @@ tree *tree_create() {
     }
     memset(tr->node, 0, TREE_SIZE * sizeof(size_t));
 
-    // memset(tr->parents, (size_t)(-1), TREE_SIZE * sizeof(size_t));   //because of working on  char not work here (on unsinged long)  
+    // memset(tr->parents, NOT_EXIST, TREE_SIZE * sizeof(size_t));   //because of working on  char not work here (on unsinged long)
     for(size_t *it = tr->parents; it < tr->parents + TREE_SIZE; it++) {
-        *it = (size_t)(-1);
+        *it = NOT_EXIST;
     }
 
     tr->tree_size = 0;
@@ -52,79 +53,104 @@ size_t tree_parent_childs_count(tree *ptr_tree, size_t parent) {
 }
 
 void tree_print(tree *ptr_tree) {
-    size_t *parents_children[TREE_SIZE];
-    size_t parents_children_no[TREE_SIZE];
-    size_t parents_children_no1[TREE_SIZE];
+    size_t *children_parent[TREE_SIZE];
+    size_t count_children_parent[TREE_SIZE];
+    size_t count_children_parent_B[TREE_SIZE];
 
-    //memset(parents_children, 0, TREE_SIZE * sizeof(size_t));
-    //memset(parents_children_no, 0, TREE_SIZE * sizeof(size_t));  //don't work correctly for unsinged long
-    for(size_t* it = parents_children_no; it < parents_children_no + TREE_SIZE; it++) {
-        *it = 0;
+    memset(children_parent, 0, TREE_SIZE * sizeof(size_t));
+    //memset(count_children_parent, 0, TREE_SIZE * sizeof(size_t));
+    for(size_t* it = count_children_parent; it < count_children_parent + TREE_SIZE; it++) {
+        *it = 0;        
     }
-    
+
     printf("%s\n", "------------------------------1");
-    for(size_t i = 0; i < TREE_SIZE; i++) {
-        if(ptr_tree->parents[i] != (size_t)(-1) ) {
-            (parents_children_no[ptr_tree->parents[i]])++;
-            printf("node:%lu has parent:%lu\n", ptr_tree->node[i], ptr_tree->parents[i]);
-        }
-        else {
-            //printf("zeros parents_children[%lu]\n", i);
-            parents_children[i] = 0;  //instead of memset
-            //printf("%s\n", "++++++++");
-        }
+    //counting children of parent
+    for(size_t ni = 0; ni < TREE_SIZE; ni++) {
+        if(ptr_tree->parents[ni] != NOT_EXIST ) {
+            (count_children_parent[ptr_tree->parents[ni]])++;
+            printf("node:%lu has parent:%lu\n", ptr_tree->node[ni], ptr_tree->parents[ni]);
+        }    
     }
-        
-    for(size_t* it1 = parents_children_no1, *it2 = parents_children_no;
-            it1 < parents_children_no1 + TREE_SIZE;
+
+    //copy helping array
+    for(size_t* it1 = count_children_parent_B, *it2 = count_children_parent;
+            it1 < count_children_parent_B + TREE_SIZE;
             it1++, it2++) {
         *it1 = *it2;
     }
 
     printf("%s\n", "------------------------------2");
-    for(size_t i = 0; i < TREE_SIZE; i++) {
-        if(parents_children_no[i]) {
-            printf("parents_children_no[%lu]:%lu\n", i, parents_children_no[i]);
-            parents_children[i] = (size_t*)malloc((parents_children_no[i]) * sizeof(size_t));
+    //preparing place for children of parent
+    for(size_t pi = 0; pi < TREE_SIZE; pi++) {
+        if(count_children_parent[pi]) {
+            printf("count_children_parent[%lu]:%lu\n", pi, count_children_parent[pi]);
 
-            if(!parents_children[i]) {
-                fprintf(stderr, "lack of memory %d, required memory: %lu bytes\n", __LINE__, parents_children_no[i] * sizeof(size_t));
+            children_parent[pi] = (size_t*)malloc((count_children_parent[pi]) * sizeof(size_t));
+
+            if(!children_parent[pi]) {
+                fprintf(stderr, "lack of memory %d, required memory: %lu bytes\n", __LINE__,
+                        count_children_parent[pi] * sizeof(size_t));
                 exit(1);
             }
-            memset(parents_children[i], (size_t)(-1), parents_children_no[i]);
+            //memset(children_parent[pi], NOT_EXIST, count_children_parent[pi] * sizeof(size_t));
+            for(size_t *it = children_parent[pi];
+                    it != children_parent[pi] + count_children_parent[pi]; it++) {
+                *it = NOT_EXIST;
+            }
         }
     }
     printf("%s\n", "------------------------------3");
-    for(size_t i = 0; i < TREE_SIZE; i++) {
-        if(ptr_tree->parents[i] != (size_t)(-1)) {
-            size_t idx = parents_children_no1[i];
-            parents_children_no1[i]--;
-
-            size_t ii = ptr_tree->parents[i];
-            size_t nd = ptr_tree->node[i];
-            parents_children[ii][idx] = nd;
-            //parents_children[ptr_tree->parents[i]][idx] = ptr_tree->node[i];
-        }        
-    }
-    printf("%s\n", "------------------------------4");
-    for(size_t i = 0; i < TREE_SIZE; i++) {
-        printf("%lu:\n", i);
-        for(size_t k = 0; k < parents_children_no[i]; k++) {
-            printf("%lu, ", parents_children[i][k]);
+    //copying children to place prepared for them in parent                    
+    for(size_t cpi = 0; cpi < TREE_SIZE; cpi++){
+        if(count_children_parent[cpi] != 0) {
+            for(size_t ni = 0; ni < TREE_SIZE; ni++){
+                if(cpi == ptr_tree->parents[ni]){
+                    children_parent[cpi][count_children_parent_B[cpi] - 1] = ptr_tree->node[ni];
+                    count_children_parent_B[cpi]--;
+                }
+            }
         }
-        printf("%s", "\n");
+    }
+
+    printf("%s\n", "------------------------------4");
+    //printing parent and its children
+    for(size_t i = 0; i < TREE_SIZE; i++) {
+        if(children_parent[i] != NULL) {
+            //printf(" c_cp:%lu, cp:%p : ", count_children_parent[i], children_parent[i]);
+            printf("%lu:\n", i);
+            for(size_t k = 0; k < count_children_parent[i]; k++) {
+                printf("%lu, ", children_parent[i][k]);
+                //printf(" c_cp:%lu, cp:%p", count_children_parent[i], children_parent[i]);
+            }
+            printf("%s", "\n");
+        }
     }
     printf("%s\n", "------------------------------5");
+    //freeing alocated memory
     for(size_t i = 0; i < TREE_SIZE; i++) {
-        if(parents_children[i]) {
-            free(parents_children[i]);
-            parents_children[i] = NULL;
+        if(children_parent[i]) {
+            free(children_parent[i]);
+            children_parent[i] = NULL;
         }
     }
 }
 
 void tree_destroy(tree* ptr_tree) {
 }
+
+void tree_print1(tree* ptr_tree, size_t n) {
+    printf("%s:\n", "node");
+    for(size_t i = 0; i < n; i++) {
+        printf("[%lu]", ptr_tree->node[i]);
+    }
+    printf("%s","\n");
+    printf("%s:\n", "parents");
+    for(size_t i = 0; i < n; i++) {
+        printf("[%lu]", ptr_tree->parents[i]);
+    }
+    printf("%s","\n");
+}
+#undef NOT_EXIST
 
 int main() {
     tree *ptr_t1 = tree_create();
@@ -137,6 +163,7 @@ int main() {
             tree_insert_node(ptr_t1, i, j);
         }
     }
+    tree_print1(ptr_t1, 10);
     tree_print(ptr_t1);
     tree_destroy(ptr_t1);
 
