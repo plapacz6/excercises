@@ -5,24 +5,25 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
+#include "IList_01.h"
 
-typedef int IListValueType;
+// typedef int IListValueType;
 
-typedef struct IListNode
-{
-    IListValueType val;
-    struct IListNode* next;
-} IListNode;
+// typedef struct IListNode
+// {
+//     IListValueType val;
+//     struct IListNode* next;
+// } IListNode;
 
-typedef struct IList
-{
-    IListNode *first;
-    IListNode *last;
-} IList;
+// typedef struct IList
+// {
+//     IListNode *first;
+//     IListNode *last;
+// } IList;
 
-IList* IList_new(void);
-void IList_delete(IList* il);
-void IList_push_back(IList* il, int val);
+// IList* IList_new(void);
+// void IList_delete(IList* il);
+// void IList_push_back(IList* il, int val);
 
 IList* IList_new(void)
 {

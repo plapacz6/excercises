@@ -1,11 +1,11 @@
-all: list_01
+all: IList_01
 
 CFLAGS= g3 -std=c11
 
-list_01: list_01.c
+IList_01: IList_01.c IList_01.h
 	$(CC) $(FLAGS) $< -o $@
 
 .PHONY: clean
 
 clean:
-	-rm list_01
+	-rm IList_01 *.o
