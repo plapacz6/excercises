@@ -6,36 +6,38 @@
 #include <stdbool.h>
 #include <string.h>
 
-typedef struct Node
-{
-    int val;
-    struct Node* next;
-} Node;
+typedef int IListValueType;
 
-typedef struct List
+typedef struct IListNode
 {
-    Node *first;
-    Node *last;
-} List;
+    IListValueType val;
+    struct IListNode* next;
+} IListNode;
 
-List* List_new(void);
-void List_delete(List* il);
-void List_push_back(List* il, int val);
-
-List* List_new(void)
+typedef struct IList
 {
-    List* List = malloc(sizeof(List));
-    if(!List) {
+    IListNode *first;
+    IListNode *last;
+} IList;
+
+IList* IList_new(void);
+void IList_delete(IList* il);
+void IList_push_back(IList* il, int val);
+
+IList* IList_new(void)
+{
+    IList* il = malloc(sizeof(IList));
+    if(!il) {
         return NULL;
     }
-    List->first = NULL;
-    List->last = NULL;
-    return List;
+    il->first = NULL;
+    il->last = NULL;
+    return il;
 }
 
-void List_delete(List* const il)
+void IList_delete(IList* const il)
 {
-    Node *tmp = NULL;
+    IListNode *tmp = NULL;
     while(il->first) {
         tmp = il->first->next;
         free(il->first);
@@ -46,10 +48,10 @@ void List_delete(List* const il)
     }
 }
 
-void List_push_back(List* const il, const int val)
+void IList_push_back(IList* const il, const int val)
 {
     if(!il->first) {
-        il->first = malloc(sizeof(Node));
+        il->first = malloc(sizeof(IListNode));
         if(!il->first) {
             exit(1);
         }
@@ -58,7 +60,7 @@ void List_push_back(List* const il, const int val)
         il->last = il->first;
     }
     else {
-        il->last->next = malloc(sizeof(Node));
+        il->last->next = malloc(sizeof(IListNode));
         if(!il->last->next) {
             exit(1);
         }
@@ -70,19 +72,19 @@ void List_push_back(List* const il, const int val)
 
 int main(int argc, char* argv[static argc])
 {
-    List* il = List_new();
+    IList* il = IList_new();
 
     assert(il != NULL);
     assert(il->first == NULL);
     assert(il->last == NULL);
 
     int x = 11;
-    List_push_back(il, x);
+    IList_push_back(il, x);
     assert(il->first->val == x);
     assert(il->last->val == x);
 
     int y = 12;
-    List_push_back(il, y);
+    IList_push_back(il, y);
     assert(il->first->val == x);
     assert(il->last->next == NULL);
     assert(il->first->next != NULL);
@@ -91,18 +93,18 @@ int main(int argc, char* argv[static argc])
     //printf("val: %d, y: %d\n", il->last->val, y);
 
     y = 13;
-    List_push_back(il, y);
+    IList_push_back(il, y);
     assert(il->last->val == y);
     assert(il->last->next == NULL);
     assert(il->first->next != NULL);
 
     y = 14;
-    List_push_back(il, y);
+    IList_push_back(il, y);
     assert(il->last->val == y);
     assert(il->last->next == NULL);
     assert(il->first->next != NULL);
 
-    List_delete(il);
+    IList_delete(il);
 
     return 0;
 }
