@@ -118,7 +118,10 @@ size_t tree_helping_generate_childen_info(tree* t) {
 void tree_destroy(tree* ptree) {
     printf("%s\n", "------------------------------5");
     //freeing alocated memory
-    tree_helping_release_alocated_memory_for_childen(ptree);
+    if(ptree) {
+        tree_helping_release_alocated_memory_for_childen(ptree);
+        free(ptree);
+    }    
 }
 
 void tree_insert_node(tree *ptree, size_t parent, size_t new_node) {
