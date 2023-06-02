@@ -1,7 +1,9 @@
 #ifndef ILIST_01_H
 #define ILIST_01_H
 
+#ifndef ILIST_VALUE_TYPE_DEFINITION
 typedef int IListValueType;
+#endif
 
 typedef struct IListNode
 {
