@@ -133,10 +133,9 @@ void tree_insert_node(tree *ptree, size_t parent, size_t new_node) {
     ptree->node[ptree->tree_size - 1] = new_node;
     ptree->parents[ptree->tree_size - 1] = parent;
 
-    ptree->valid_children_info = false;
-    // if(!ptree->valid_children_info) {
-    //     tree_helping_generate_childen_info(ptree);
-    // }
+    ptree->valid_children_info = false;    
+    //tree_helping_generate_childen_info(ptree);
+    
 }
 
 void tree_print(tree *ptree) {
@@ -159,19 +158,9 @@ void tree_print(tree *ptree) {
     }
 }
 
-size_t tree_find_parent(tree* ptree, size_t n) {
-    return ptree->parents[n];
-}
-size_t tree_parent_childs_count(tree *ptree, size_t parent) {
-    size_t n = 0;
-    for(size_t i = 0; i < TREE_SIZE; i++) {
-        if(ptree->parents[i] == parent) {
-            n++;
-        }
-    }
-    return n;
-}
-void tree_print1(tree* ptree, size_t n) {
+
+
+void test_tree_print1(tree* ptree, size_t n) {
     printf("%s:\n", "node");
     for(size_t i = 0; i < n; i++) {
         printf("[%lu]", ptree->node[i]);
@@ -185,6 +174,7 @@ void tree_print1(tree* ptree, size_t n) {
 }
 #undef NOT_EXIST
 
+
 int main() {
     tree *ptr_t1 = tree_create();
 
@@ -196,7 +186,7 @@ int main() {
             tree_insert_node(ptr_t1, i, j);
         }
     }
-    tree_print1(ptr_t1, 10);
+    test_tree_print1(ptr_t1, 10);
     tree_print(ptr_t1);
     tree_destroy(ptr_t1);
 
