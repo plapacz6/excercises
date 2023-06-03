@@ -18,6 +18,8 @@ ITree *ITree_create_with_value(ITreeValueType val) {
     }
     it->root->parent = NULL;
     it->root->val = val;
+    it->curr = it->root;
+    it->is_curr_leaf = true;
     return it;
 }
 
@@ -63,6 +65,9 @@ void ITree_insert(ITree *it, ITreeNode *parent, ITreeValueType val) {
     itn->val = val;
     itn->parent = parent;
     IList_push_back(parent->children, itn);
+    if(it->curr == parent) {
+        it->is_curr_leaf = false;
+    }
 }
 
 void ITreeNode_search_through(ITreeNode start[static 1],
@@ -81,4 +86,27 @@ void ITree_search_through(ITree *it, void action(ITreeValueType* pval, void* arg
 
 void ITree_print_elements(ITree *it, void print_action(ITreeValueType* pval, void* arg)) {
     ITree_search_through(it, print_action, "");
+}
+
+int ITree_up(ITree *it) {
+
+}
+int ITree_down(ITree *it) {
+    if(!it->curr->children->first) {
+        return -1;
+    }
+    it->curr = it->curr->children->first->val;
+    if(!it->curr->children->first) {
+        it->is_curr_leaf = true;
+    }
+    return 0;
+}
+int ITree_next(ITree *it){
+
+}
+int ITree_prev(ITree *it){
+    
+}
+ITreeValueType ITree_get_curr_val(ITree *it) {
+    return it->curr->val;
 }
