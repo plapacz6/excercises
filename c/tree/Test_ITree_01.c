@@ -48,6 +48,11 @@ int main() {
     assert(it->curr == it->root->children->first->val);
     assert(it->is_curr_leaf == true);
 
+    ret = ITree_up(it);
+    assert(ret == 0);
+    assert(it->curr == it->root);
+    assert(it->is_curr_leaf == false);
+
     ITree_destroy(it);
     return 0;
 }

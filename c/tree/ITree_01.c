@@ -89,7 +89,12 @@ void ITree_print_elements(ITree *it, void print_action(ITreeValueType* pval, voi
 }
 
 int ITree_up(ITree *it) {
-
+    if(!it->curr->parent){
+        return -1;
+    }
+    it->curr = it->curr->parent;
+    it->is_curr_leaf = false;
+    return 0;
 }
 int ITree_down(ITree *it) {
     if(!it->curr->children->first) {
@@ -105,7 +110,7 @@ int ITree_next(ITree *it){
 
 }
 int ITree_prev(ITree *it){
-    
+
 }
 ITreeValueType ITree_get_curr_val(ITree *it) {
     return it->curr->val;
