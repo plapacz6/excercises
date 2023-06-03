@@ -17,6 +17,6 @@ typedef struct IList
 
 IList* IList_new(void);
 void IList_delete(IList* il);
-void IList_push_back(IList* il, int val);
+void IList_push_back(IList* il, const_IListValueType val);
 
 #endif // ILIST_01_H
