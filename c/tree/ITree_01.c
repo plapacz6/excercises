@@ -2,28 +2,33 @@
 #include <stdbool.h>
 #include "ITree_01.h"
 
+ITreeNode *ITreeNode_create();
+void ITreeNode_destroy(ITreeNode *itn);
+void ITreeNode_search_through(ITreeNode start[static 1],
+                              void action(ITreeValueType* pval, void* arg), void* arg);
+
 ITree *ITree_create_with_value(ITreeValueType val) {
     ITree *it = malloc(sizeof(ITree));
     if(!it) {
         return NULL;
     }
     it->root = ITreeNode_create();
-    if(!it->root){
+    if(!it->root) {
         return NULL;
     }
-    it->root->parent = NULL;    
+    it->root->parent = NULL;
     it->root->val = val;
     return it;
 }
 
-ITreeNode *ITreeNode_create(){
+ITreeNode *ITreeNode_create() {
     ITreeNode *itn = malloc(sizeof(ITreeNode));
-    if(!itn){
+    if(!itn) {
         return NULL;
     }
     //int->parent = NULL;
     itn->children = IList_new();
-    if(!itn->children){
+    if(!itn->children) {
         free(itn);
         return NULL;
     }
@@ -31,8 +36,8 @@ ITreeNode *ITreeNode_create(){
 }
 
 //TODO: add callback to optionaly destroy value of ITreeNode
-void ITreeNode_destroy(ITreeNode *itn){
-    while(itn->children->first){
+void ITreeNode_destroy(ITreeNode itn[static 1]) {
+    while(itn->children->first) {
         //recursive freeing of nested nodes
         IListNode *iln = itn->children->first->next;
         ITreeNode_destroy(itn->children->first->val);
@@ -52,7 +57,7 @@ void ITree_destroy(ITree* it) {
 
 void ITree_insert(ITree *it, ITreeNode *parent, ITreeValueType val) {
     ITreeNode *itn = ITreeNode_create();
-    if(!itn){
+    if(!itn) {
         exit(1);
     }
     itn->val = val;
@@ -60,5 +65,20 @@ void ITree_insert(ITree *it, ITreeNode *parent, ITreeValueType val) {
     IList_push_back(parent->children, itn);
 }
 
-void ITree_print(ITree *it) {
+void ITreeNode_search_through(ITreeNode start[static 1],
+                              void action(ITreeValueType* pval, void* arg), void* arg) {
+    IListNode *tmp = start->children->first;
+    while(tmp) {
+        ITreeNode_search_through(tmp->val, action, arg);
+        tmp = tmp->next;
+    }
+    action(&start->val, arg);
+}
+
+void ITree_search_through(ITree *it, void action(ITreeValueType* pval, void* arg), void* arg) {
+    ITreeNode_search_through(it->root, action, arg);
+}
+
+void ITree_print_elements(ITree *it, void print_action(ITreeValueType* pval, void* arg)) {
+    ITree_search_through(it, print_action, "");
 }

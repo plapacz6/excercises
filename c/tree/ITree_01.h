@@ -16,11 +16,10 @@ typedef struct ITree {
     ITreeNode *root;
 } ITree;
 
-ITreeNode *ITreeNode_create();
-void ITreeNode_destroy(ITreeNode *itn);
 ITree *ITree_create_with_value(ITreeValueType val);
 void ITree_destroy(ITree* it);
 void ITree_insert(ITree *it, ITreeNode *parent, ITreeValueType val);
-void ITree_print(ITree *it);
+void ITree_search_through(ITree *it, void action(ITreeValueType* pval, void* arg), void* arg);
+void ITree_print_elements(ITree *it, void print_action(ITreeValueType* pval, void* arg));
 
 #endif // ITree_01_H
