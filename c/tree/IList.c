@@ -31,7 +31,7 @@ void IList_delete(IList* const il)
     }
 }
 
-void IList_push_back(IList* const il, const int val)
+void IList_push_back(IList* const il, IListValueType val)
 {
     if(!il->first) {
         il->first = malloc(sizeof(IListNode));

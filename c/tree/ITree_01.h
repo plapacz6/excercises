@@ -9,16 +9,18 @@ typedef size_t ITreeValueType;
 struct ITreeNode {
     ITreeNode *parent;
     IList *children;
-    ITreeValueType *val;
+    ITreeValueType val;
 };
 
 typedef struct ITree {
     ITreeNode *root;
 } ITree;
 
-ITree *ITree_create();
+ITreeNode *ITreeNode_create();
+void ITreeNode_destroy(ITreeNode *itn);
+ITree *ITree_create_with_value(ITreeValueType val);
 void ITree_destroy(ITree* it);
-void ITree_insert(ITreeNode *it, ITreeNode *parent, ITreeValueType val);
+void ITree_insert(ITree *it, ITreeNode *parent, ITreeValueType val);
 void ITree_print(ITree *it);
 
 #endif // ITree_01_H
