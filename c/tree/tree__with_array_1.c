@@ -121,7 +121,7 @@ void tree_destroy(tree* ptree) {
     if(ptree) {
         tree_helping_release_alocated_memory_for_childen(ptree);
         free(ptree);
-    }    
+    }
 }
 
 void tree_insert_node(tree *ptree, size_t parent, size_t new_node) {
@@ -133,9 +133,9 @@ void tree_insert_node(tree *ptree, size_t parent, size_t new_node) {
     ptree->node[ptree->tree_size - 1] = new_node;
     ptree->parents[ptree->tree_size - 1] = parent;
 
-    ptree->valid_children_info = false;    
+    ptree->valid_children_info = false;
     //tree_helping_generate_childen_info(ptree);
-    
+
 }
 
 void tree_print(tree *ptree) {
@@ -158,8 +158,6 @@ void tree_print(tree *ptree) {
     }
 }
 
-
-
 void test_tree_print1(tree* ptree, size_t n) {
     printf("%s:\n", "node");
     for(size_t i = 0; i < n; i++) {
@@ -173,7 +171,6 @@ void test_tree_print1(tree* ptree, size_t n) {
     printf("%s","\n");
 }
 #undef NOT_EXIST
-
 
 int main() {
     tree *ptr_t1 = tree_create();

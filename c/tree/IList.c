@@ -5,8 +5,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
-#include "IList_01.h"
-
+#include "IList.h"
 
 IList* IList_new(void)
 {
@@ -32,7 +31,7 @@ void IList_delete(IList* const il)
     }
 }
 
-void IList_push_back(IList* const il, const IListValueType val)
+void IList_push_back(IList* const il, IListValueType val)
 {
     if(!il->first) {
         il->first = malloc(sizeof(IListNode));
@@ -53,4 +52,3 @@ void IList_push_back(IList* const il, const IListValueType val)
         il->last = il->last->next;
     }
 }
-
