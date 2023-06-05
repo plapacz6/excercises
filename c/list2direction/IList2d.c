@@ -5,11 +5,11 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
-#include "IList.h"
+#include "IList2d.h"
 
-IList* IList_new(void)
+IList2d* IList2d_new(void)
 {
-    IList* il = malloc(sizeof(IList));
+    IList2d* il = malloc(sizeof(IList2d));
     if(!il) {
         return NULL;
     }
@@ -18,9 +18,9 @@ IList* IList_new(void)
     return il;
 }
 
-void IList_delete(IList* const il)
+void IList2d_delete(IList2d* const il)
 {
-    IListNode *tmp = NULL;
+    IList2dNode *tmp = NULL;
     while(il->first) {
         tmp = il->first->next;
         free(il->first);
@@ -31,24 +31,26 @@ void IList_delete(IList* const il)
     }
 }
 
-void IList_push_back(IList* const il, IListValueType val)
+void IList2d_push_back(IList2d* const il, IList2dValueType val)
 {
     if(!il->first) {
-        il->first = malloc(sizeof(IListNode));
+        il->first = malloc(sizeof(IList2dNode));
         if(!il->first) {
             exit(1);
         }
         il->first->next = NULL;
+        il->first->prev = NULL;
         il->first->val = val;
         il->last = il->first;
     }
     else {
-        il->last->next = malloc(sizeof(IListNode));
+        il->last->next = malloc(sizeof(IList2dNode));
         if(!il->last->next) {
             exit(1);
         }
         il->last->next->val = val;
         il->last->next->next = NULL;
+        il->last->next->prev = il->last;
         il->last = il->last->next;
     }
 }

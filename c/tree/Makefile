@@ -2,13 +2,13 @@ all: Test_ITree_01
 
 CFLAGS=	-g3 -std=c11
 
-Test_ITree_01: Test_ITree_01.o ITree_01.o IList.o
+Test_ITree_01: Test_ITree_01.o ITree_01.o IList2d.o
 	$(CC) $(CFLAGS) $^ -o Test_ITree_01
-Test_ITree_01.o: Test_ITree_01.c ITree_01.h IList.h IList_cfg.h
+Test_ITree_01.o: Test_ITree_01.c ITree_01.h IList2d.h IList2d_cfg.h
 	$(CC) $(CFLAGS) $< -c	
-ITree_01.o: ITree_01.c ITree_01.h IList.h IList_cfg.h
+ITree_01.o: ITree_01.c ITree_01.h IList2d.h IList2d_cfg.h
 	$(CC) $(CFLAGS) $< -c	
-IList.o: IList.c IList.h IList_cfg.h
+IList2d.o: IList2d.c IList2d.h IList2d_cfg.h
 	$(CC) $(CFLAGS) $< -c
 
 
