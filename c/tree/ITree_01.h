@@ -2,20 +2,22 @@
 #define ITree_01_H
 #include <stdlib.h>
 
-#include "IList.h"
+#include "IList2d.h"
 
 typedef size_t ITreeValueType;
 
 struct ITreeNode {
     ITreeNode *parent;
-    IList *children;
+    IList2d *children;
     ITreeValueType val;
+    IList2dNode *curr_child;  //for going through up, left, right, down
 };
 
 typedef struct ITree {
     ITreeNode *root;
+    
     ITreeNode *curr;
-    bool is_curr_leaf;
+    bool is_curr_leaf;    
 } ITree;
 
 ITree *ITree_create_with_value(ITreeValueType val);
@@ -58,7 +60,7 @@ int ITree_down(ITree *it);
  * @return int  0 - ok
  *              -1 - there is no next sibling
  */
-int ITree_next(ITree *it);
+int ITree_left(ITree *it);
 
 /**
  * @brief Sets currently ponted node to previous sibling
@@ -67,6 +69,6 @@ int ITree_next(ITree *it);
  * @return int  0 - ok
  *              -1 - there is no previous sibling
  */
-int ITree_prev(ITree *it);
+int ITree_right(ITree *it);
 
 #endif // ITree_01_H
