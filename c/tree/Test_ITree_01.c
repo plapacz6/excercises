@@ -47,8 +47,7 @@ int main() {
 
     ret = ITree_down(it);
     assert(ret == -1);
-    //w/o changes
-    assert(it->curr == it->root->children->first->val);
+    //w/o changes    
     assert(it->is_curr_leaf == true);        
     assert(it->root->curr_child == it->root->children->first);
     assert(it->curr == it->root->children->first->val);
@@ -64,6 +63,21 @@ int main() {
     assert(it->root->children->last->val->val == 13);  
     assert(it->curr == it->root->children->first->val); //w/o changes
     assert(it->root->curr_child == it->root->children->first); //w/o changes
+
+    ret = 0;
+    ret = ITree_down(it);
+    assert(ret == 0);
+    assert(it->curr == it->root->children->first->val->children->first->val);
+    assert(it->is_curr_leaf == true);
+    assert(it->root->curr_child == it->root->children->first);        
+
+    ret = ITree_up(it);     
+    assert(ret == 0);
+    assert(it->curr == it->root->children->first->val);
+    assert(it->is_curr_leaf == false);
+    assert(it->root->curr_child == it->root->children->first);
+    assert(it->curr == it->root->children->first->val);
+
 
     // ret = ITree_left(it);
     // assert(ret == -1);
