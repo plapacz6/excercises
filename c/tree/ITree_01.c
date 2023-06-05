@@ -18,7 +18,7 @@ ITree *ITree_create_with_value(ITreeValueType val) {
     }
     it->root->parent = NULL;
     it->root->val = val;
-    it->curr = it->root;    
+    it->curr = it->root;
     it->is_curr_leaf = true;
     return it;
 }
@@ -34,7 +34,7 @@ ITreeNode *ITreeNode_create() {
         free(itn);
         return NULL;
     }
-    itn->curr_child = NULL;    
+    itn->curr_child = NULL;
     return itn;
 }
 
@@ -90,12 +90,12 @@ void ITree_print_elements(ITree *it, void print_action(ITreeValueType* pval, voi
 }
 
 int ITree_up(ITree *it) {
-    if(!it->curr->parent){
+    if(!it->curr->parent) {
         return -1;
     }
     //it->curr_child =  //not neccessary because set previously (we go frist fron up to down)
-    it->curr = it->curr->parent;    
-    it->is_curr_leaf = false;    
+    it->curr = it->curr->parent;
+    it->is_curr_leaf = false;
     return 0;
 }
 
@@ -104,7 +104,7 @@ int ITree_down(ITree *it) {
         return -1;
     }
     it->curr->curr_child = it->curr->children->first;
-    it->curr = it->curr->children->first->val;    
+    it->curr = it->curr->children->first->val;
     if(!it->curr->children->first) {
         it->is_curr_leaf = true;
     }
@@ -114,42 +114,42 @@ int ITree_down(ITree *it) {
     return 0;
 }
 
-int ITree_right(ITree *it){
-    // if(!it->curr->parent){
-    //     return -1;
-    // }
-    // if(!it->curr->parent->curr_child->next){
-    //     return -1;
-    // }
-    // it->curr = it->curr->parent->curr_child->next->val;
-    // it->curr->parent->curr_child = it->curr->curr_child->next;
-    // if(!it->curr->children->first){
-    //     it->is_curr_leaf = true;
-    // }
-    // else {
-    //     it->is_curr_leaf = false;
-    // }
+int ITree_right(ITree *it) {
+    if(!it->curr->parent) {
+        return -1;
+    }
+    if(!it->curr->parent->curr_child->next) {
+        return -1;
+    }
+    it->curr->parent->curr_child = it->curr->parent->curr_child->next;
+    it->curr = it->curr->parent->curr_child->val;
+    if(!it->curr->children->first) {
+        it->is_curr_leaf = true;
+    }
+    else {
+        it->is_curr_leaf = false;
+    }
 
-    // return 0;
-}   
+    return 0;
+}
 
-int ITree_left(ITree *it){
-//     if(!it->curr->parent){
-//         return -1;
-//     }    
-//    if(!it->curr->parent->curr_child->prev){
-//         return -1;
-//     }
-//     it->curr = it->curr->parent->curr_child->prev->val;
-//     it->curr->parent->curr_child = it->curr->curr_child->prev;
-//     if(!it->curr->children->first){
-//         it->is_curr_leaf = true;
-//     }
-//     else {
-//         it->is_curr_leaf = false;
-//     }
+int ITree_left(ITree *it) {
+    if(!it->curr->parent) {
+        return -1;
+    }
+    if(!it->curr->parent->curr_child->prev) {
+        return -1;
+    }
+    it->curr->parent->curr_child = it->curr->parent->curr_child->prev;
+    it->curr = it->curr->parent->curr_child->val;
+    if(!it->curr->children->first) {
+        it->is_curr_leaf = true;
+    }
+    else {
+        it->is_curr_leaf = false;
+    }
 
-//     return 0;
+    return 0;
 }
 
 ITreeValueType ITree_get_curr_val(ITree *it) {

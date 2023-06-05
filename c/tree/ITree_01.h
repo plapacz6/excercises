@@ -1,5 +1,5 @@
-#ifndef ITree_01_H
-#define ITree_01_H
+#ifndef ITREE_01_H
+#define ITREE_01_H
 #include <stdlib.h>
 
 #include "IList2d.h"
@@ -15,9 +15,9 @@ struct ITreeNode {
 
 typedef struct ITree {
     ITreeNode *root;
-    
+
     ITreeNode *curr;
-    bool is_curr_leaf;    
+    bool is_curr_leaf;
 } ITree;
 
 ITree *ITree_create_with_value(ITreeValueType val);
@@ -55,7 +55,7 @@ int ITree_down(ITree *it);
 
 /**
  * @brief Sets currently ponted node to next sibling
- * 
+ *
  * @param it    pointer to tree
  * @return int  0 - ok
  *              -1 - there is no next sibling
@@ -64,11 +64,11 @@ int ITree_left(ITree *it);
 
 /**
  * @brief Sets currently ponted node to previous sibling
- * 
+ *
  * @param it    pointer to tree
  * @return int  0 - ok
  *              -1 - there is no previous sibling
  */
 int ITree_right(ITree *it);
 
-#endif // ITree_01_H
+#endif // ITREE_01_H
