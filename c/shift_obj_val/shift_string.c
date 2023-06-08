@@ -3,24 +3,22 @@
 #include <stdlib.h>
 #include <assert.h>
 
-
-void shift_string(char *s){
+void shift_string(char *s) {
     if(!s) {
         return;
     }
     char tmp = s[0];
     char *p1 = s + 1;
     char *p0 = s;
-    while(*p1){
+    while(*p1) {
         *p0 = *p1;
         p0++;
         p1++;
-    }    
+    }
     *p0 = tmp;
-}   
+}
 
-
-int main(){
+int main() {
     char text[] = "alama";
     shift_string(text);
     assert(!strcmp("lamaa", text));
