@@ -1,4 +1,9 @@
-all : shift_ul
+all : shift_string
+
+CFLAGS = -g3 -std=c11
+
+.c.o: 
+	$(CC) $(CFALGS) $< -o $@
 
 .PHONY: clean
 
