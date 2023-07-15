@@ -8,8 +8,10 @@ there is only one odd number in A
 */
 #include <stdlib.h>
 //#include <stdio.h>
+#include <malloc.h>
+#include <stdbool.h>
 
-int solution(int A[], int N) {  
+int solution1(int A[], int N) {  
   size_t j = 0;
   size_t i = 0;
   int counter = 0;  
@@ -26,4 +28,35 @@ int solution(int A[], int N) {
       }            
   }
   return A[i];
+}
+
+int solution2(int A[], int N) {  
+  int *pM = malloc(((N / 2) + 1) * sizeof(int));
+  if(!pM){
+      return -1;
+  }
+  size_t j = 0;
+  size_t i = 0;  
+  size_t pMsize = 0;
+  int oddidx = 0;
+  bool isodd = true;
+
+  for(i = 0; i < N; i++){
+    isodd = true;
+    for(j = 0; j < pMsize; j++){
+        if(*(pM + j) == A[i]) {
+            isodd = false;
+            break;
+        }
+    }
+    if(isodd) {
+        ++pMsize;
+        *(pM + pMsize) = A[i];
+        oddidx = i;
+    }    
+  }
+  if(pM){
+      free(pM);
+  }
+  return A[oddidx];
 }
