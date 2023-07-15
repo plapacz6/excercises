@@ -13,7 +13,7 @@ N = 0..2 147 483 647
 //     printf("%c",'\n');
 // }
 
-int solution(int N) {    
+int solution(int N) {
     long n = (long)N;
     int maxg = 0;
     int cg = 0;
@@ -21,22 +21,22 @@ int solution(int N) {
     int bit = 0;
     //print(n);
 
-    for(size_t i = 0; i < (8 * 8); i++){
+    for(size_t i = 0; i < (8 * 8); i++) {
         bit = n>>i & 1;
 
-        if(!rec){
-            if(bit){
+        if(!rec) {
+            if(bit) {
                 rec = true;
             }
         }
         else {
-            if(!bit){
+            if(!bit) {
                 cg++;
             }
-            else {                
+            else {
                 if(maxg < cg)
                     maxg = cg;
-                    cg = 0;                    
+                cg = 0;
             }
         }
     }
