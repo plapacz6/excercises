@@ -54,3 +54,37 @@ void IList2d_push_back(IList2d* const il, IList2dValueType val)
         il->last = il->last->next;
     }
 }
+
+IList2dNode* IList2d_find_node(IList2dValueType val, IList2dNode *start_iln) {
+    while(start_iln) {
+        if(start_iln->val == val) {
+            return start_iln;
+        }
+        start_iln = start_iln->next;
+    }
+    return NULL;
+}
+
+IList2dNode* IList2d_remove_node(IList2d *il, IList2dNode *iln) {
+    if(iln) {
+        if(!iln->next && !iln->prev) {
+            return NULL;
+        }
+        if(iln->prev) {
+            iln->prev->next = iln->next;
+        }
+        else {
+            il->first = iln->next;
+        }
+        if(iln->next) {
+            iln->next->prev = iln->prev;
+        }
+        else {
+            il->last = iln->prev;
+        }
+        iln->prev = NULL;
+        iln->next = NULL;
+        return iln;
+    }
+    return NULL;
+}
