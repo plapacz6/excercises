@@ -40,18 +40,18 @@ int main(int argc, char* argv[static argc])
 
     y = 12;
     IListNode *node = 
-    IList_find_node(12);
+    IList_find_node(12, il->first);
     assert(node->val == 12);
     assert(node->next->val == 13);
 
     IListNode *node2 = IList_remove_node(node);
     assert(node2 = node);
-    IListNode *node3 = IList_find_node(11);
+    IListNode *node3 = IList_find_node(11, il->first);
     assert(node3->val == 11);
     assert(node3->next->val == 13);
     free(node);
     node = NULL;
-    node = IList_find_node(12);
+    node = IList_find_node(12, il->first);
     assert(node == NULL);
     
     IList_delete(il);
