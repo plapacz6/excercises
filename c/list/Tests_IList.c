@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include "IList.h"
 
-
 int main(int argc, char* argv[static argc])
 {
     IList* il = IList_new();
@@ -39,21 +38,25 @@ int main(int argc, char* argv[static argc])
     assert(il->first->next != NULL);
 
     y = 12;
-    IListNode *node = 
-    IList_find_node(12, il->first);
+    IListNode *node =
+        IList_find_node(12, il->first);
+    assert(node != NULL);
     assert(node->val == 12);
     assert(node->next->val == 13);
 
-    IListNode *node2 = IList_remove_node(node);
+    IListNode *node2 = IList_remove_node(il, node);
+    assert(node2 != NULL);
     assert(node2 = node);
+
     IListNode *node3 = IList_find_node(11, il->first);
+    assert(node3 != NULL);
     assert(node3->val == 11);
     assert(node3->next->val == 13);
     free(node);
     node = NULL;
     node = IList_find_node(12, il->first);
     assert(node == NULL);
-    
+
     IList_delete(il);
 
     return 0;
