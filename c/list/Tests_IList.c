@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include <stdlib.h>
-#include "IList_01.h"
+#include "IList.h"
 
 
 int main(int argc, char* argv[static argc])
@@ -38,6 +38,22 @@ int main(int argc, char* argv[static argc])
     assert(il->last->next == NULL);
     assert(il->first->next != NULL);
 
+    y = 12;
+    IListNode *node = 
+    IList_find_node(12);
+    assert(node->val, 12);
+    assert(node->next->val, 13);
+
+    IListNode *node2 = IList_remove_node(node);
+    assert(node2 = node);
+    IListNode *node3 = IList_find_node(11);
+    assert(node3->val == 11);
+    assert(node3->next-val == 13);
+    free(node);
+    node = NULL;
+    node = IList_find_node(12);
+    assert(node == NULL);
+    
     IList_delete(il);
 
     return 0;

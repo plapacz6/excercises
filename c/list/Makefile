@@ -1,17 +1,17 @@
-all: Tests_IList_01
+all: Tests_IList
 
 CFLAGS= g3 -std=c11
 
-IList_01.o: IList_01.c IList_01.h
+IList.o: IList.c IList.h
 	$(CC) $(FLAGS) $< -c
 
-Tests_IList_01: Tests_IList_01.o IList_01.o
+Tests_IList: Tests_IList.o IList.o
 	$(CC) $(FLAGS) $^ -o $@
 
-Tests_IList_01.o: Tests_IList_01.c IList_01.h
+Tests_IList.o: Tests_IList.c IList.h
 	$(CC) $(FLAGS) $< -c
 
 .PHONY: clean
 
 clean:
-	-rm IList_01 Tests_IList_01 *.o
+	-rm IList Tests_IList *.o

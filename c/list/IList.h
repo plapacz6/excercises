@@ -1,5 +1,5 @@
-#ifndef ILIST_01_H
-#define ILIST_01_H
+#ifndef ILIST_H
+#define ILIST_H
 
 #include "IList_cfg.h"
 
@@ -19,4 +19,4 @@ IList* IList_new(void);
 void IList_delete(IList* il);
 void IList_push_back(IList* il, const_IListValueType val);
 
-#endif // ILIST_01_H
+#endif // ILIST_H
