@@ -5,8 +5,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
-#include "IList_01.h"
-
+#include "IList.h"
 
 IList* IList_new(void)
 {
@@ -54,3 +53,29 @@ void IList_push_back(IList* const il, const IListValueType val)
     }
 }
 
+IListNode* IList_find_node(const_IListValueType val, IListNode *start_iln) {
+    while(start_iln) {
+        if(start_iln->val == val) {
+            return start_iln;
+        }
+        start_iln = start_iln->next;
+    }
+    return NULL;
+}
+
+IListNode* IList_remove_node(IList *il, IListNode *iln) {
+    if(iln) {
+        IListNode *parent = il->first;
+        while(parent->next != iln && parent->next != NULL) {
+            parent = parent->next;
+        };
+        if(parent->next == iln) {
+            parent->next = iln->next;
+            return iln;
+        }
+        else {
+            return NULL;
+        }
+    }
+    return NULL;
+}
