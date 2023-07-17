@@ -127,7 +127,6 @@ int solution3(int A[], int N) {
 }
 
 int solution4(int A[], int N) {
-    printf("solution4 start\n");
     /*
     add when encountered
     and remove when a pair is encountered
@@ -165,8 +164,7 @@ int solution4(int A[], int N) {
          assert(mem_list->first == mem_list->last);
          assert(mem_list->first->next == NULL);
     IList2d_delete(mem_list);
-
-    printf("solution4 end\n");
+    
     return val;    
 }
 
@@ -177,26 +175,33 @@ int solution5(int A[], int N) {
     assert(A != NULL);
     assert(N > 0);
 
-    qsort(A, N, sizeof(int), comp_int);
-
-    size_t i = 0;
-    size_t j = 1;
-    size_t counter = 0;
     int val = A[0];
     if(N == 1) {
         return val;
     }
+
+    qsort(A, N, sizeof(int), comp_int);
+
+    size_t i = 0;
+    size_t j = 1;
+    size_t counter = 1;
     for( ; j < N; i++, j++) {
         if(A[i] != A[j]) {
             if(counter == 1) {
-                val = A[i];
+                val = A[i];                
                 break;
             }
-            counter = 1;
+            else {
+                if(j == N - 1){
+                    val = A[j];
+                    break;
+                }
+                counter = 1;
+            }            
         }
         else {
             counter++;
-        }
+        }        
     }
     return val;
 }
@@ -280,7 +285,7 @@ int main() {
         }        
         {
             int val = 1029;
-            for(size_t j = 0; j < 20; j++){
+            for(size_t j = 0; j < 40; j++){
                 size_t tbl_size = ((rand()%100) * 2) + 1;
                 int *tbl1 = malloc(tbl_size * sizeof(int));
                 if(!tbl1){
