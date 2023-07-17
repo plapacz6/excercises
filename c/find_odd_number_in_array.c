@@ -201,6 +201,8 @@ int solution5(int A[], int N) {
     return val;
 }
 
+
+
 void test_and_print(int nr, int* A, int N, int val, int solution(int* A, int N)) {
     printf("solutioni%d(N:%d... val: %d) -> \n", nr, N, val);
     fflush(stdout);
@@ -208,12 +210,20 @@ void test_and_print(int nr, int* A, int N, int val, int solution(int* A, int N))
     assert(result == val);
     printf("-> %d\n", result);
 }
-
 void shuffle(size_t *tbl, size_t size){
     for(size_t i = 0; i < size; i++){
         size_t tmp_idx = rand() % size;
         assert(tmp_idx < size && tmp_idx >= 0);
         size_t tmp = tbl[tmp_idx];
+        tbl[tmp_idx] = tbl[i];
+        tbl[i] = tmp;
+    }
+}
+void shuffle_int(int *tbl, size_t size){
+    for(size_t i = 0; i < size; i++){
+        size_t tmp_idx = rand() % size;
+        assert(tmp_idx < size && tmp_idx >= 0);
+        int tmp = tbl[tmp_idx];
         tbl[tmp_idx] = tbl[i];
         tbl[i] = tmp;
     }
@@ -267,8 +277,42 @@ int main() {
             test_and_print(1, tbl1, N5, 1009, solution1);
             test_and_print(4, tbl1, N5, 1009, solution4);
             test_and_print(5, tbl1, N5, 1009, solution5);
-
         }        
+        {
+            int val = 1029;
+            for(size_t j = 0; j < 20; j++){
+                size_t tbl_size = ((rand()%100) * 2) + 1;
+                int *tbl1 = malloc(tbl_size * sizeof(int));
+                if(!tbl1){
+                    exit(1);
+                }
+                size_t i;
+                for(i = 0; i < tbl_size / 2; i++){
+                    tbl1[i] = rand() % 1000;
+                }                
+                tbl1[tbl_size/2] = val;
+                for(i = 0; i < tbl_size/2; i++){
+                    tbl1[i + (tbl_size/2) + 1] = tbl1[i];
+                }
+                shuffle_int(tbl1, tbl_size);
+                for(size_t k = 0; k < tbl_size; k++){
+                    if(tbl1[k] == val) {
+                        printf("<{[%d]}>,", tbl1[k]);
+                    }
+                    else {
+                        printf("%d,", tbl1[k]);
+                    }                    
+                }
+                printf("%c", '\n');
+                test_and_print(1, tbl1, tbl_size, val, solution1);
+                test_and_print(4, tbl1, tbl_size, val, solution4);
+                test_and_print(5, tbl1, tbl_size, val, solution5);
+
+                if(tbl1){
+                    free(tbl1);
+                }
+            }
+        }
         {
             int tbl1[N1];
             for(size_t i = 0; i < N1/2; i++) {
