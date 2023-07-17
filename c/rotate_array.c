@@ -56,7 +56,7 @@ int main() {
         r = solution(A, N, K);
         assert(!memcmp(ar, r.A, r.N));
     }
-        {
+    {
         int N = N4;
         int A[N4] = {1, 2, 3, 4};
         int ar[N4] = {3, 4, 1, 2};
