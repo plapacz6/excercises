@@ -9,6 +9,9 @@ find_odd_number_in_array: find_odd_number_in_array.c
 rotate_array: rotate_array.c
 	$(CC) $($CFLAGS) $< -o $@
 
+find_missing_el_in_array: find_missing_el_in_array.c
+	$(CC) $($CFLAGS) $< -o $@
+	
 .PHONY: clean
 
 clean:
@@ -16,3 +19,4 @@ clean:
 	rotate_array \
 	find_odd_number_in_array \
 	find_binary_gap \
+	find_missing_el_in_array \
