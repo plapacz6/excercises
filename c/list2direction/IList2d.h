@@ -62,4 +62,6 @@ IList2dNode* IList2d_find_node(IList2dValueType val, IList2dNode *start_iln);
  */
 IList2dNode* IList2d_remove_node(IList2d *il, IList2dNode *iln);
 
+void IList2d_debug_print(const IList2d *il);
+
 #endif // ILIST_2D_H

@@ -52,7 +52,7 @@ int main(int argc, char* argv[static argc])
     assert(node3 != NULL);
     assert(node3->val == 11);
     assert(node3->next->val == 13);
-    free(node);
+    free(node2);
     node = NULL;
     node = IList_find_node(12, il->first);
     assert(node == NULL);

@@ -68,7 +68,15 @@ IList2dNode* IList2d_find_node(IList2dValueType val, IList2dNode *start_iln) {
 IList2dNode* IList2d_remove_node(IList2d *il, IList2dNode *iln) {
     if(iln) {
         if(!iln->next && !iln->prev) {
-            return NULL;
+            if(il->first == iln){
+                assert(il->first == il->last);
+                il->first = NULL;
+                il->last = NULL;
+                return iln;
+            }
+            else {
+                return NULL;
+            }
         }
         if(iln->prev) {
             iln->prev->next = iln->next;
@@ -87,4 +95,14 @@ IList2dNode* IList2d_remove_node(IList2d *il, IList2dNode *iln) {
         return iln;
     }
     return NULL;
+}
+
+void IList2d_debug_print(const IList2d *il) {
+    IList2dNode *node = il->first;
+    printf("%s", "list2d: ");
+    while(node) {
+        printf("[%i], ", node->val);        
+        node = node->next;
+    }
+    printf("%c", '\n');
 }

@@ -1,4 +1,4 @@
-CFLAGS = -g3 --std=c11
+CFLAGS= g3 -std=c11
 
 find_binary_gap: find_binary_gap.c 
 	$(CC) $($CFLAGS) $< -o $@
@@ -14,5 +14,5 @@ rotate_array: rotate_array.c
 clean:
 	-rm \
 	rotate_array \
-	find_odd_number_in_array\
-	find_binary_gap
+	find_odd_number_in_array \
+	find_binary_gap \
